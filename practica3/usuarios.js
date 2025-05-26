@@ -8,3 +8,11 @@ function verificarUsuario(usuario) {
     });
 }
 
+// Usa .then() y .catch() para manejar el resultado
+verificarUsuario("admin")
+    .then(res => console.log(res))   // Acceso concedido
+    .catch(err => console.error(err));
+
+verificarUsuario("Alonso")
+    .then(res => console.log(res))
+    .catch(err => console.error(err));  // Acceso denegado
