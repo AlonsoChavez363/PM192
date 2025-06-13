@@ -31,18 +31,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'base-line',
     justifyContent: 'center',
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   text:{
     color: 'black',
     fontSize: 25,
-    height:150,
-    width:300,
   },
-  red:{flex:1, backgroundColor:'red'},
-  purple:{flex:2, backgroundColor:'purple'},
-  pink:{flex:3, backgroundColor:'pink'},
+  red:{backgroundColor:'red'},
+  purple:{backgroundColor:'purple'},
+  pink:{backgroundColor:'pink'},
 
 });
