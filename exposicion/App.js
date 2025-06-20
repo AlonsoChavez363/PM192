@@ -10,8 +10,11 @@ export default function App() {
   const mostrarAlerta = () => {
     if (nombre.trim() === '') {
       Alert.alert('Error', 'Por favor escribe algo');
+      alert('Escribe algo');
     } else {
-      Alert.alert('Hola', `Hola ${nombre}, bienvenid@ a nuestra app :D`);
+      Alert.alert('Bienvenida', `Hola ${nombre}, bienvenido a nuestra app :D`);
+      alert('Hola ' + nombre + ' bienvenid@ a nuestra app :D');
+
     }
   };
 
@@ -36,20 +39,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: 'white', // Fondo blanco
+    backgroundColor: 'white', 
   },
   text: {
     fontSize: 18,
     marginBottom: 10,
-    color: '#000', // Texto negro (por si acaso)
+    color: '#000', 
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc', // Gris claro para que se vea sobre blanco
+    borderColor: '#ccc', 
     padding: 10,
     marginBottom: 20,
     borderRadius: 5,
-    backgroundColor: '#f9f9f9', // Color de fondo del input, opcional
+    backgroundColor: '#f9f9f9', // Color de fondo del input
     color: '#000', // Texto del input en negro
   },
 });

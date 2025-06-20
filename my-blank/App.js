@@ -20,7 +20,7 @@ export default function App() {
     if (nombre.trim()=== '') {
       Alert.alert('Error', 'Por favor escribe algo :(')
     }else{
-      Alert.alert('Hola',`Hola ${nombre}, bienvenid@ a nuestra app :D`)
+      alert('Hola' + nombre + ' bienvenid@ a nuestra app :D');
     }
   }
   return (
