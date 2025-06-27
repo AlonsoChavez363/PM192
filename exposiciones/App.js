@@ -1,18 +1,9 @@
 /* Zone 1: Importaciones */
-import React, { useState, useEffect } from 'react';
-import {
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  ImageBackground,
-} from 'react-native';
+import React, {StatusBar} from 'expo-status-bar';
+import React, { useState, useEffect, use } from 'react';
+import {Alert,SafeAreaView,StyleSheet,Switch,Text,TouchableOpacity,View,Image,ImageBackground, ScrollView, TextInput} from 'react-native';
 
-/* Zone 2: Splash Screen */
+/* Zona 2: Splash Screen */
 const SplashScreen = () => {
   return (
     <ImageBackground
@@ -26,91 +17,82 @@ const SplashScreen = () => {
   );
 };
 
-/* Zone 3: App Principal */
+/* Zona 3: App Principal */
 export default function App() {
+  /* Funciones equipo de polo */
+/* Funcion para ver los nombres que vamos a utilizar */
+const [nombres, setNombres]= useState([
+  'Alonso', 'Mariano', 'Kevin', 'Mario', 'Yahir', 'Miguel'
+]);
+/* Funcion para actualizar la lista con un nuevo hombre */
+const [nuevoNombre, setNuevoNombre] = useState('');
+/* Funciones que sirven para obtener la psocion que va a tener el scrollview */
+const [contenidoHeight, setcontenidoHeight] = useState(0);
+const [scrollY, setScrollY] = useState(0);
+/* Funcion personalizada para que la barra se adapte al contenedor */
+const [bandleScroll] = event => {
+  scrollY(event.nativeEvent.contentOffset.y)
+}
+/* Funcion para agregar un nombre */
+const agregarNombre =() =>{
+  const nombreTrim = nuevoNombre.trim();
+  if(nombreTrim.length > 0){
+    setNombres([...nombres, nombreTrim]);
+    setNuevoNombre('');
+  }
+}
   // Estado para controlar splash y el resto de la app
   const [showSplash, setShowSplash] = useState(true);
-
-  // Estados para la funcionalidad principal
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSwitchBlocked, setIsSwitchBlocked] = useState(true);
-  const [disabledButton, setDisabledButton] = useState(false);
-  const [count, setCount] = useState(0);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
-
-  const toggleDarkMode = () => setIsDarkMode(prev => !prev);
-
-  const handleFirstButton = () => Alert.alert('Me presionaste');
-  const handleDisableButton = () => setDisabledButton(true);
-  const handleCounter = () => setCount(count + 1);
-  const handlePokeball = () => Alert.alert('¡La pokebola ha sido presionada!');
-
   if (showSplash) {
     return <SplashScreen />;
   }
 
   return (
-    <ImageBackground
-      source={require('./assets/fondo.jpg')}
-      style={styles.fondo}
-    >
-      <SafeAreaView style={[styles.container, isDarkMode && styles.darkBackground]}>
-        <Text style={[styles.title, isDarkMode && styles.darkText]}>Práctica Switch</Text>
-
-        {/* Switch principal para modo oscuro */}
-        <View style={styles.switchContainer}>
-          <Text style={isDarkMode ? styles.darkText : styles.lightText}>Modo Oscuro</Text>
-          <Switch
-            value={isDarkMode}
-            onValueChange={isSwitchBlocked ? null : toggleDarkMode}
-          />
+    <View style={styles.container}>
+        <Text style={styles.titulo}>Pase de lista</Text>
+        <View style = {styles.inputRow}>
+          <TextInput style={styles.input}
+          placeholder="Nuevo Nombre"
+          placeholderTextColor="#888"
+          value={nuevoNombre}
+          onChangeText={setNuevoNombre}
+          onSubmitEditing={agregarNombre}
+          returnKeyType="done">
+          </TextInput>
+          <TouchableOpacity style = {styles.btnAgregar} onPress={agregarNombre}>
+            <Text style = {styles.btnAgregar}>agregar</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Switch que bloquea el cambio */}
-        <View style={styles.switchContainer}>
-          <Text style={isDarkMode ? styles.darkText : styles.lightText}>Bloquear Switch</Text>
-          <Switch
-            value={isSwitchBlocked}
-            onValueChange={() => setIsSwitchBlocked(!isSwitchBlocked)}
-          />
-        </View>
-
-        {/* Botón 1 - alerta */}
-        <TouchableOpacity style={styles.button} onPress={handleFirstButton}>
-          <Text style={styles.buttonText}>Primer Botón</Text>
-        </TouchableOpacity>
-
-        {/* Botón 2 - desactiva después de presionar */}
-        <TouchableOpacity
-          style={[styles.button, disabledButton && styles.buttonDisabled]}
-          onPress={handleDisableButton}
-          disabled={disabledButton}
+        <View style = {styles.scrollWrapper}
+        onLayout={(event) => setScrollHeight(event.nativeEvent.layout.height)}
+        ></View>
+        <ScrollView style={styles.scrollArea}
+        onContentSizeChange={(w,h) => setcontenidoHeight(h)}
+        onScroll={handScroll}
+        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator = {false}
         >
-          <Text style={styles.buttonText}>
-            {disabledButton ? 'Desactivado' : 'Segundo Botón'}
-          </Text>
-        </TouchableOpacity>
+          {nombres.map((nombres, index) =>(
+            <View key={index} style = {styles.item}>
+              <Text style={styles.texto}>{nombre}</Text>
+            </View>
+          ))}
+        </ScrollView>
 
-        {/* Botón 3 - contador */}
-        <TouchableOpacity style={styles.button} onPress={handleCounter}>
-          <Text style={styles.buttonText}>Tercer Botón (Contador: {count})</Text>
-        </TouchableOpacity>
+        {contenidoHeight > ScrollHeight && (
+          <View style={[styles.scrollBar, {height: scollbarHeight, top: scrollbarPosition}]}></View>
+        )}
+        
 
-        {/* Botón 4 - pokebola */}
-        <TouchableOpacity onPress={handlePokeball}>
-          <Image
-            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Poké_Ball_icon.svg' }}
-            style={styles.pokeball}
-          />
-        </TouchableOpacity>
-      </SafeAreaView>
-    </ImageBackground>
+    </View> 
+    
   );
 }
 
@@ -135,45 +117,54 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingTop: 50,
+    paddingHorizontal: 20
   },
-  darkBackground: {
-    backgroundColor: 'rgba(0,0,0,0.6)', // oscurecer fondo en modo oscuro
+  titulo: {
+    frontSize:24,
+    fontWeight: 'bold',
+    color: '#012677',
+    marginBottom: 15,
+    textAlign: 'center'
+
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  lightText: {
-    color: '#000',
-  },
-  darkText: {
-    color: '#fff',
-  },
-  switchContainer: {
+  inputRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    gap: 10,
+    marginBottom: 15,
   },
-  button: {
-    backgroundColor: '#3498db',
-    padding: 12,
-    marginTop: 10,
-    borderRadius: 8,
-    width: '80%',
-    alignItems: 'center',
+  input: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    color: '#666666',
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    frontSize: 16,
+    height: 45,
+    marginRight: 10,
   },
-  buttonDisabled: {
-    backgroundColor: '#95a5a6',
+  btnAgregar: {
+    backgroundColor: '#012677',
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    justifyContent: 'center'
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
+  scrollWrapper: {
+    position: 'relative',
+    height: 500,
   },
-  pokeball: {
-    width: 60,
-    height: 60,
-    marginTop: 20,
+  scrollArea: {
+    backgroundColor: '#012677',
+    borderRadius: 10,
+    padding: 10,
+    height: 500,
+    borderWidth: 1,
+    borderColor: "#f76f6d"
+  },
+  scrollBar: {
+    position: 'absolute',
+    width: 8,
+    right: 2,
+    backgroundColor: '#000000',
+    borderRadius: 3,
   },
 });
