@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from './screens/home';
-import Profile from './screens/profile';
-import Settings from './screens/settings';
+import Home from './screens/Home';
+import Profile from './screens/Profile';
+import Settings from './screens/Settings';
 
 const HomeStack = createNativeStackNavigator();
 function HomeStackScreen() {
